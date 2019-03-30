@@ -1,11 +1,15 @@
 package br.com.etechoracio.training.model;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+
 
 import br.com.etechoracio.common.model.BaseORM;
 import lombok.Getter;
@@ -43,7 +47,14 @@ public class Endereco extends BaseORM {
 	@Column(name = "TX_CEP")
 	private String cep;
 
+	@OneToOne
 	@JoinColumn(name = "ID_ALUNO")
 	private Aluno aluno;
 
+	@PrePersist
+	private void preencherDataCriacao() {
+		if (uf == null) {
+			uf = "sp";
+		}
+	}
 }
